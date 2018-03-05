@@ -15,3 +15,15 @@ Outbound Interface    FastEthernet0/0
 '''
 
 ospf_route = 'O        10.0.24.0/24 [110/41] via 10.0.13.3, 3d18h, FastEthernet0/0'
+####
+ospf_route_val = ospf_route.split()
+
+ospf_route_template = '''Protocol:\t\tOSPF
+Prefix:\t\t\t{1}
+AD/Metric:\t\t{2}
+Next-Hop:\t\t{4}
+Last update:\t\t{5}
+Outbound Interface\t{6}'''
+
+print(str(ospf_route_template).format(*ospf_route_val))
+

@@ -9,3 +9,6 @@
 '''
 
 MAC = 'AAAA:BBBB:CCCC'
+####
+MAC16 = [int(i, 16) for i in MAC.split(':')]
+
