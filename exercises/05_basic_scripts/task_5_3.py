@@ -61,8 +61,10 @@ trunk_template = [
 
 ####
 mode = input('Enter interface mode (access/trunk): ')
-type_num = 'Enter interface type and number (Gi0/3): '
-vlan = 'Enter vlan(s): '
+iface = input('Enter interface type and number (Gi0/3): ')
+vlan = input('Enter vlan(s): ')
 
-choice = {'access':access_template, 'trunk':trunk_template}
-print()
+option_dict = {'access':access_template, 'trunk':trunk_template}
+
+print('\n' + 'interface {}'.format(iface))
+print(("\n".join(option_dict[mode])).format(vlan))

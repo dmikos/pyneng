@@ -17,3 +17,13 @@ num_list = [10, 2, 30, 100, 10, 50, 11, 30, 15, 7]
 word_list = [
     'python', 'ruby', 'perl', 'ruby', 'perl', 'python', 'ruby', 'perl'
 ]
+####
+num = int(input("Enter number from {}: ".format(num_list)))
+num_list_rev = num_list.copy()
+num_list_rev.reverse()
+print("index of {} = {}".format(num, len(num_list)-num_list_rev.index(num)-1))
+
+word = input("Enter word from {}: ".format(word_list))
+word_list_rev = word_list.copy()
+word_list_rev.reverse()
+print("index of {} = {}".format(word, len(word_list)-word_list_rev.index(word)-1))
