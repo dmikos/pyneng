@@ -4,3 +4,5 @@ lib64
 pyvenv.cfg
 share
 pyneng-examples-exercises
+.idea
+pydevd_attach_to_process
