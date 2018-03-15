@@ -18,3 +18,10 @@
 Ограничение: Все задания надо выполнять используя только пройденные темы.
 
 '''
+####
+read_f = 'CAM_table.txt'
+with open(read_f, 'r') as rf:
+    for line in rf:
+        if '.' in line:
+            vlan, mac, _, intf = line.split()
+            print('{}   {}   {}'.format(vlan, mac, intf))

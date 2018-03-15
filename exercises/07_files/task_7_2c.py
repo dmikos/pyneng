@@ -17,3 +17,17 @@
 '''
 
 ignore = ['duplex', 'alias', 'Current configuration']
+####
+# python3 task_7_2c.py config_sw1.txt config_sw1_72c.txt
+from sys import argv
+
+f_read = argv[1]
+f_write = argv[2]
+with open(f_read, 'r') as f, open(f_write, 'w') as fw:
+    for line in f:
+        flag = True
+        for word in ignore:
+            if word in line:
+                flag = False
+        if flag:
+            fw.write(line.strip()+'\n')
