@@ -44,6 +44,24 @@ def generate_access_config(access):
         'switchport port-security'
     ]
 
+    ####
+    # psecurity=False
+    psecurity=True
+    ret_lst=[]
+
+    for intf, vlan in access.items():
+      ret_lst.append("interface {}".format(intf))
+      for command in access_template:
+        if command.endswith('access vlan'):
+          ret_lst.append(command+"{}".format(vlan))
+        else:
+          ret_lst.append("{}".format(command))
+      if psecurity:
+        ret_lst.extend(port_security)    
+
+    return ret_lst
+####
+
 
 access_dict = {
     'FastEthernet0/12': 10,
@@ -51,3 +69,6 @@ access_dict = {
     'FastEthernet0/16': 17,
     'FastEthernet0/17': 150
 }
+####
+res = generate_access_config(access_dict)
+print(res)

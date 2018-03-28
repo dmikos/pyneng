@@ -48,4 +48,32 @@ def check_ignore(command, ignore):
     Возвращает True, если в команде содержится слово из списка ignore, False - если нет
 
     '''
-    return any(word in command for word in ignore)
+    return not any(word in command for word in ignore)
+####
+def generate_dict_from_config(config_file):
+    with open(config_file) as f:
+        res_dict = {}
+        for line in f:
+            line = line.rstrip()
+            if check_ignore(line, '!') and check_ignore(line, ignore):
+                if line.startswith('  '):
+                    line = line.lstrip()
+                    if type(res_dict[top_one]) == type(list()):
+                        tmp_list = res_dict[top_one]
+                        res_dict[top_one] = {}
+                        for elem in tmp_list:
+                            res_dict[top_one][elem] = []
+                        res_dict[top_one][top_two] = [line]
+                    elif type(res_dict[top_one]) == type(dict()):
+                        res_dict[top_one][top_two].append(line)
+                elif line[0]==' ' and line[1]!=' ':
+                  top_two = line.lstrip()
+                  res_dict[top_one].append(top_two)
+                else:
+                    top_one = line.lstrip()
+                    res_dict[top_one]=[]
+    return res_dict
+
+res = generate_dict_from_config('config_r1.txt')
+for key, value in res.items():
+    print('{} = {}'.format(key, value))
