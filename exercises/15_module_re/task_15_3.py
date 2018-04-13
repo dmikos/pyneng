@@ -22,3 +22,25 @@
 диапазоны адресов и так далее, так как обрабатывается вывод команды, а не ввод пользователя.
 
 '''
+####
+# python task_15_3.py config_r1.txt
+
+import re
+
+def parse_cfg(f_name):
+    result_list = []
+    regex = 'ip address ((?:\d+\.)+\d+) +((?:\d+\.)+\d+)'
+
+    with open(f_name, 'r') as f:
+        for line in f:
+            match = re.search(regex, line.strip())
+            if match:
+                result_list.append(match.groups())
+    return result_list
+
+
+if __name__=='__main__':
+    from sys import argv
+
+    f_name = argv[1]
+    print(parse_cfg(f_name))

@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 '''
 Задание 11.2
@@ -26,3 +27,13 @@
 > pip install graphviz
 
 '''
+####
+from task_11_1 import parse_cdp_neighbors
+from  draw_network_graph import draw_topology
+
+with open("sw1_sh_cdp_neighbors.txt") as f:
+        content = f.read()
+    
+result_dict = parse_cdp_neighbors('SW1', content)
+print(result_dict)
+draw_topology(result_dict, 'task_11_2_my-topology')

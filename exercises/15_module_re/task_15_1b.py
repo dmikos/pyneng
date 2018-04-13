@@ -14,4 +14,7 @@
 
 '''
 
-regex = ''
+# regex = ''
+####
+# python task_15_1.py sh_ip_int_br.txt '0/[13]'
+regex = '0/[13]'
