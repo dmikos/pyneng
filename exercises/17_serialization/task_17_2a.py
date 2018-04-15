@@ -25,3 +25,20 @@
 
 Не копировать код функции parse_sh_cdp_neighbors
 '''
+####
+from task_17_2 import parse_sh_cdp_neighbors
+import glob
+import yaml
+
+sh_cdp_files = glob.glob('sh_cdp_n*')
+# print(sh_cdp_files)
+
+if __name__=="__main__":
+    final_dict = {}
+    
+    for f_name in sh_cdp_files:
+        with open(f_name) as f:
+            final_dict.update(parse_sh_cdp_neighbors(f.read()))
+
+    with open('topology.yaml', 'w') as f:
+        yaml.dump(final_dict, f)
