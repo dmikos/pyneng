@@ -26,8 +26,19 @@
 * информация на основании вывода sh ip dhcp snooping binding добавляется в таблицу dhcp
  * вывод с трёх коммутаторов:
    * файлы sw1_dhcp_snooping.txt, sw2_dhcp_snooping.txt, sw3_dhcp_snooping.txt
- * так как таблица dhcp изменилась, и в ней теперь присутствует поле switch, его нужно также заполнять. Имя коммутатора определяется по имени файла с данными
+ * так как таблица dhcp изменилась, и в ней теперь присутствует поле switch, его нужно также заполнять.
+ Имя коммутатора определяется по имени файла с данными
 
 На данном этапе, оба скрипта вызываются без аргументов.
 
 '''
+####
+import create_db
+import add_data
+
+
+if __name__=="__main__":
+    create_db.check_create_db()
+    add_data.switches_table_update()
+    add_data.dhcp_table_update()
+

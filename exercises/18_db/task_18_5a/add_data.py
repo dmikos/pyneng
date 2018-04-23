@@ -12,6 +12,10 @@
 
 import glob
 import os
+from datetime import timedelta, datetime
+
+now = datetime.today().replace(microsecond=0)
+week_ago = now - timedelta(minutes=1)
 
 db_filename = 'dhcp_snooping.db'
 dhcp_snoop_files = glob.glob('sw*_dhcp_snooping.txt')
@@ -63,26 +67,44 @@ def dhcp_table_update():
     if check_db(db_fname):
         conn = sqlite3.connect(db_fname)
 
+        conn.execute('update dhcp set active = 0')
+        conn.commit()
+
         for fname in dhcp_snoop_fnames:
             hostname = fname.split('_')[0]
             with open(fname) as f:
                 for row in f.readlines():
                     match = re.search('(?P<mac>\S+) +(?P<ip>\S+) +\d+ +\S+ +(?P<vlan>\d+) +(?P<intf>\S+)', row)
                     if match:
-                        data = (match.group('mac'), match.group('ip'), match.group('vlan'), match.group('intf'), hostname)
+                        data = (match.group('mac'), match.group('ip'), match.group('vlan'), match.group('intf'), hostname, 1, now)
                         try:
                             with conn:
-                                query = '''insert into dhcp (mac, ip, vlan, interface, switch) values (?, ?, ?, ?, ?)'''
+                                query = '''insert into dhcp (mac, ip, vlan, interface, switch, active, last_active) values (?, ?, ?, ?, ?, ?, ?)'''
                                 conn.execute(query, data)
                         except sqlite3.IntegrityError as e:
                             print('Error occured: ', e)
+                            # print(match.group('mac'))
+                            conn.execute('update dhcp set active = 1 where mac = :mac', {'mac': match.group('mac')})
+                            conn.execute('update dhcp set last_active = :now where mac = :mac', {'mac': match.group('mac'), 'now': now})
+                            conn.commit()
+
         conn.close()
     else:
         print("You need create DB first")
 
 
+def dhcp_table_delete_old():
+    db_fname = 'dhcp_snooping.db'
+    conn = sqlite3.connect(db_fname)
+    print(week_ago)
+
+    conn.execute('delete from dhcp where last_active < :week_ago', {'week_ago': week_ago})
+    conn.commit()
+
 if __name__=="__main__":
     #switches_table_update(db_filename, 'switches.yml')
     #dhcp_table_update(db_filename, dhcp_snoop_files)
+    
     switches_table_update()
     dhcp_table_update()
+    dhcp_table_delete_old()

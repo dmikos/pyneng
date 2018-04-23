@@ -73,3 +73,7 @@ $ python get_data.py vlan
 Пожалуйста, введите два или ноль аргументов
 
 '''
+####
+import get_data
+result = get_data.check_args()
+get_data.print_from_table(result)
